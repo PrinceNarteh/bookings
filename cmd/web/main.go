@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"hotel_reservation/pkg/handlers"
+	"log"
 	"net/http"
 )
 
@@ -13,5 +14,5 @@ func main() {
 	http.HandleFunc("/about", handlers.About)
 
 	fmt.Printf("🚀 Server running on http://localhost%s\n", portNumber)
-	http.ListenAndServe(":8080", nil)
+	log.Panicln(http.ListenAndServe(":8080", nil))
 }
