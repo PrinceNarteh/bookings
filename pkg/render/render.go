@@ -3,28 +3,32 @@ package render
 import (
 	"bytes"
 	"fmt"
+	"hotel_reservation/pkg/config"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 )
 
+var app *config.AppConfig
 var functions = template.FuncMap{}
 
-func Template(w http.ResponseWriter, tmpl string) {
-	ts, err := CreateTemplateCache()
-	if err != nil {
-		log.Fatal(err)
-	}
+// NewTemplates sets the config for the template package
+func NewTemplates(a *config.AppConfig) {
+	app = a
+}
 
-	t, ok := ts[tmpl]
+func Template(w http.ResponseWriter, tmpl string) {
+	tc := app.TemplateCache
+
+	t, ok := tc[tmpl]
 	if !ok {
-		log.Fatal(err)
+		log.Fatal("could not get template from template cache")
 	}
 
 	buf := new(bytes.Buffer)
 	_ = t.Execute(buf, nil)
-	_, err = buf.WriteTo(w)
+	_, err := buf.WriteTo(w)
 	if err != nil {
 		fmt.Println("error writing template to browser", err)
 	}
