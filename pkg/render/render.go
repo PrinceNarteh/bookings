@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"hotel_reservation/pkg/config"
-	"hotel_reservation/pkg/handlers"
+	"hotel_reservation/pkg/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -19,8 +19,14 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func Template(w http.ResponseWriter, tmpl string, td *handlers.TemplateData) {
-	tc := app.TemplateCache
+func Template(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+	var tc map[string]*template.Template
+
+	if app.UseCache {
+		tc = app.TemplateCache
+	} else {
+		tc, _ = CreateTemplateCache()
+	}
 
 	t, ok := tc[tmpl]
 	if !ok {
@@ -28,7 +34,7 @@ func Template(w http.ResponseWriter, tmpl string, td *handlers.TemplateData) {
 	}
 
 	buf := new(bytes.Buffer)
-	_ = t.Execute(buf, nil)
+	_ = t.Execute(buf, td)
 	_, err := buf.WriteTo(w)
 	if err != nil {
 		fmt.Println("error writing template to browser", err)
