@@ -29,6 +29,11 @@ func main() {
 	http.HandleFunc("/", handlers.Repo.Home)
 	http.HandleFunc("/about", handlers.Repo.About)
 
+	server := &http.Server{
+		Addr:    portNumber,
+		Handler: routes(&app),
+	}
+
 	fmt.Printf("🚀 Server running on http://localhost%s\n", portNumber)
-	log.Panicln(http.ListenAndServe(":8080", nil))
+	log.Panic(server.ListenAndServe())
 }
