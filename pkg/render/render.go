@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"hotel_reservation/pkg/config"
+	"hotel_reservation/pkg/handlers"
 	"html/template"
 	"log"
 	"net/http"
@@ -18,7 +19,7 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func Template(w http.ResponseWriter, tmpl string) {
+func Template(w http.ResponseWriter, tmpl string, td *handlers.TemplateData) {
 	tc := app.TemplateCache
 
 	t, ok := tc[tmpl]
