@@ -14,6 +14,11 @@ import (
 var app *config.AppConfig
 var functions = template.FuncMap{}
 
+// AddDefaultData adds default data to all templates
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
 // NewTemplates sets the config for the template package
 func NewTemplates(a *config.AppConfig) {
 	app = a
@@ -34,6 +39,7 @@ func Template(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	}
 
 	buf := new(bytes.Buffer)
+	td = AddDefaultData(td)
 	_ = t.Execute(buf, td)
 	_, err := buf.WriteTo(w)
 	if err != nil {
