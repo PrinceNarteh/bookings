@@ -2,21 +2,10 @@ package handlers
 
 import (
 	"hotel_reservation/pkg/config"
+	"hotel_reservation/pkg/models"
 	"hotel_reservation/pkg/render"
 	"net/http"
 )
-
-//TemplateData holds data sent from handlers to templates
-type TemplateData struct {
-	StringMap map[string]string
-	IntMap    map[string]int
-	FloatMap  map[string]float32
-	Data      map[string]interface{}
-	CSRFToken string
-	flash     string
-	warning   string
-	error     string
-}
 
 // Repository is the repository type
 type Repository struct {
@@ -40,11 +29,14 @@ func NewHandlers(r *Repository) {
 
 // Home is the home page handler
 func (re *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, "home.page.tmpl", &TemplateData{})
+	render.Template(w, "home.page.tmpl", &models.TemplateData{})
 }
 
 // About is the about page handler
 func (re *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, "about.page.tmpl", &TemplateData{})
+	stringMap := make(map[string]string)
+	stringMap["text"] = "Hello, World!"
+	render.Template(w, "about.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }
-g
