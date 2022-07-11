@@ -2,17 +2,32 @@ package main
 
 import (
 	"fmt"
+	"github.com/alexedwards/scs/v2"
 	"hotel_reservation/pkg/config"
 	"hotel_reservation/pkg/handlers"
 	"hotel_reservation/pkg/render"
 	"log"
 	"net/http"
+	"time"
 )
 
 const portNumber = ":8080"
 
+var app config.AppConfig
+var session *scs.SessionManager
+
 func main() {
-	var app config.AppConfig
+
+	// change this to true when in production
+	app.InProduction = false
+
+	session = scs.New()
+	session.Lifetime = 24 * time.Hour
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteLaxMode
+	session.Cookie.Secure = app.InProduction
+
+	app.Session = session
 
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
@@ -31,7 +46,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:    portNumber,
-		Handler: routes(&app),
+		Handler: routes(),
 	}
 
 	fmt.Printf("🚀 Server running on http://localhost%s\n", portNumber)
