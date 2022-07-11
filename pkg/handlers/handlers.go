@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"hotel_reservation/pkg/config"
-	"hotel_reservation/pkg/models"
-	"hotel_reservation/pkg/render"
+	"bookings/pkg/config"
+	"bookings/pkg/models"
+	"bookings/pkg/render"
 	"net/http"
 )
 

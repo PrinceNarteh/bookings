@@ -1,10 +1,10 @@
 package render
 
 import (
+	"bookings/pkg/config"
+	"bookings/pkg/models"
 	"bytes"
 	"fmt"
-	"hotel_reservation/pkg/config"
-	"hotel_reservation/pkg/models"
 	"html/template"
 	"log"
 	"net/http"

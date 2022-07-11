@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bookings/pkg/config"
+	"bookings/pkg/handlers"
+	"bookings/pkg/render"
 	"fmt"
 	"github.com/alexedwards/scs/v2"
-	"hotel_reservation/pkg/config"
-	"hotel_reservation/pkg/handlers"
-	"hotel_reservation/pkg/render"
 	"log"
 	"net/http"
 	"time"

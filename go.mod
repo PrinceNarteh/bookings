@@ -1,4 +1,4 @@
-module hotel_reservation
+module bookings
 
 go 1.18
 
